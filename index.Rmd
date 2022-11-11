@@ -29,8 +29,9 @@ bechdel <- bechdel |>
 
 ```{r}
 library(ggplot2)
-bechdel_plot <- ggplot(data = bechdel, mapping = aes(x = budget_millions, y = domgross_millions)) + geom_point(size = 0.01) + facet_wrap(~ binary) + labs(x = "Film Budgets in Millions of USD", y = "Films' Domestic Grossing", title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test")
+bechdel_plot <- ggplot(data = bechdel, mapping = aes(x = log(budget_millions), y = log(domgross_millions))) + geom_point(size = 0.01) + facet_wrap(~ binary) + labs(x = "Film Budgets in Millions of USD", y = "Films' Domestic Grossing", title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test")
 bechdel_plot
+
 ```
 
 
