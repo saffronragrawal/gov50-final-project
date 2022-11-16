@@ -26,7 +26,6 @@ bechdel <- bechdel |>
   mutate(budget_millions = budget/1000000, 
          domgross_millions = domgross/1000000)|>
   drop_na()
-
 ```
 
 ```{r}
