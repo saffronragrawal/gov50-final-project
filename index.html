@@ -1537,7 +1537,7 @@ For the Gov 50 Final Project, my research question is: What is the relationship 
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
-<span><span class='va'>bechdel_scatter</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
+<span><span class='va'>bechdel_scatterplot</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>bechdel</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>budget_millions</span>, y <span class='op'>=</span> <span class='va'>domgross_millions</span>, color <span class='op'>=</span> <span class='va'>binary</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>xlim</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>350</span><span class='op'>)</span> <span class='op'>+</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>ylim</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>650</span><span class='op'>)</span> <span class='op'>+</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='va'>lm</span><span class='op'>)</span> <span class='op'>+</span> </span>
@@ -1546,7 +1546,7 @@ For the Gov 50 Final Project, my research question is: What is the relationship 
 <span>    y <span class='op'>=</span> <span class='st'>"Films' Domestic Grossing"</span>, </span>
 <span>    title <span class='op'>=</span> <span class='st'>"The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test"</span>, </span>
 <span>    color <span class='op'>=</span> <span class='st'>"Bechdel Test"</span><span class='op'>)</span></span>
-<span><span class='va'>bechdel_scatter</span></span></code></pre>
+<span><span class='va'>bechdel_scatterplot</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-2-1.png" width="624" /></p>
 </div>

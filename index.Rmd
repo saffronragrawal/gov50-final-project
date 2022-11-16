@@ -31,7 +31,7 @@ bechdel <- bechdel |>
 
 ```{r}
 library(ggplot2)
-bechdel_scatter <- bechdel |>
+bechdel_scatterplot <- bechdel |>
   ggplot(bechdel, mapping = aes(x = budget_millions, y = domgross_millions, color = binary)) + 
   geom_point(size = 0.5) + xlim(0, 350) +ylim(0, 650) + 
   geom_smooth(method = lm) + 
@@ -40,7 +40,7 @@ bechdel_scatter <- bechdel |>
     y = "Films' Domestic Grossing", 
     title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test", 
     color = "Bechdel Test")
-bechdel_scatter
+bechdel_scatterplot
 ```
 
 This scatterplot data visualization plots how the domestic grossing of a film is affected by its budget in millions. The points themselves are distinguished based on whether they pass or fail the bechdel test. My research question was how a movie passing the bechdel test might impact its domestic grossing and I optimistically hypothesized that movies that pass the bechdel test would have a higher domestic grossing. However, this visualization shows there is little to no impact on a movie's domestic grossing based on whether it passes the bechdel test. Movies that pass might have a slightly higher domestic grossing based on the linear model, but not enough to be statistically signficant according to the regression calculations below. 
