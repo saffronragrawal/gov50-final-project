@@ -15,7 +15,7 @@ Milestone 1:
 I am interested in exploring data related to character representation on TV. Specifically, I am interested in how different underrepresented groups are displayed on TV and with what frequency. I would love to overlay this information with general attitudes to different identity groups over time to see how TV representation may or may not make a difference. I plan to find this data utilizing Google Data Sets.
 
 Milestone 2: 
-For the Gov 50 Final Project, my research question is: What is the relationship between movies passing the Bechdel test and their domestic grossing. The Bechdel test is conducted on movies as a metric of determining gender bias by evaluating the nature of conversations among women in the films and whether they revolve around men or stand independent. I plan to use a data set provided by FiveThirtyEight and inspired by the study "The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women" [https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/]. The data set lists a number of movies, the binary of whether they pass the Bechdel test, and the movies' budget, in addition to variables like domestic grossing and international grossing. I plan to examine the correlation among some of these variables to find out either if whether a movie passes the Bechdel test impacts the domestic grossing. My explanatory variable could be whether a movie passes the Bechdel test and the outcome could be the domestic grossing. I hypothesize that  movies that pass the Bechdel test might have a lower domestic grossing that those that do not. I plan to examine some of these variables through scatter plots to look at correlation. I have yet to decide whether to limit the time frame of the data because there are currently 1795 rows. There is also a scenario in which I look at the potential increase in movies that pass the Bechdel test over time. 
+For the Gov 50 Final Project, my research question is: What is the relationship between movies passing the Bechdel test and their domestic grossing. The Bechdel test is conducted on movies as a metric of determining gender bias by evaluating the nature of conversations among women in the films and whether they revolve around men or stand independent. I plan to use a data set provided by FiveThirtyEight and inspired by the study "The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women" [https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/]. The data set lists a number of movies, the binary of whether they pass the Bechdel test, and the movies' budget, in addition to variables like domestic grossing and international grossing. I plan to examine the correlation among some of these variables to find out either if whether a movie passes the Bechdel test impacts the domestic grossing. My explanatory variable could be whether a movie passes the Bechdel test and the outcome could be the domestic grossing. I hypothesize that  movies that pass the Bechdel test might have a higher domestic grossing that those that do not. I plan to examine some of these variables through scatter plots to look at correlation. I have yet to decide whether to limit the time frame of the data because there are currently 1795 rows. There is also a scenario in which I look at the potential increase in movies that pass the Bechdel test over time. 
 
 ```{r}
 library(tidyverse)
@@ -23,15 +23,39 @@ bechdel<- read.csv("bechdel_data.csv")
 bechdel <- bechdel |>
   mutate(budget = as.numeric(budget),
          domgross = as.numeric(domgross)) |>
-  mutate(budget_millions = budget/1000000, domgross_millions = domgross/1000000)
+  mutate(budget_millions = budget/1000000, 
+         domgross_millions = domgross/1000000)|>
+  drop_na()
 
 ```
 
 ```{r}
 library(ggplot2)
-bechdel_plot <- ggplot(data = bechdel, mapping = aes(x = log(budget_millions), y = log(domgross_millions))) + geom_point(size = 0.01) + facet_wrap(~ binary) + labs(x = "Film Budgets in Millions of USD", y = "Films' Domestic Grossing", title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test")
-bechdel_plot
-
+bechdel_scatter <- bechdel |>
+  ggplot(bechdel, mapping = aes(x = budget_millions, y = domgross_millions, color = binary)) + 
+  geom_point(size = 0.5) + xlim(0, 350) +ylim(0, 650) + 
+  geom_smooth(method = lm) + 
+  labs(
+    x = "Film Budgets in Millions of USD", 
+    y = "Films' Domestic Grossing", 
+    title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test", 
+    color = "Bechdel Test")
+bechdel_scatter
 ```
 
+This scatterplot data visualization plots how the domestic grossing of a film is affected by its budget in millions. The points themselves are distinguished based on whether they pass or fail the bechdel test. My research question was how a movie passing the bechdel test might impact its domestic grossing and I optimistically hypothesized that movies that pass the bechdel test would have a higher domestic grossing. However, this visualization shows there is little to no impact on a movie's domestic grossing based on whether it passes the bechdel test. Movies that pass might have a slightly higher domestic grossing based on the linear model, but not enough to be statistically signficant according to the regression calculations below. 
+
+
+```{r}
+library(broom)
+m.lm <- lm(domgross_millions ~ binary +
+           budget_millions + year, 
+           data = bechdel)
+broom::tidy(m.lm) |>
+  select(term, estimate, p.value) |>
+  knitr::kable(digits = 3)
+
+
+
+```
 
