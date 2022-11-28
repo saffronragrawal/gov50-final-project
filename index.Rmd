@@ -27,6 +27,13 @@ bechdel <- bechdel |>
          domgross_millions = domgross/1000000)|>
   drop_na()
 ```
+```{r}
+library(ggplot2)
+domgross_scatter <- bechdel |>
+  ggplot(bechdel, mapping = aes(x = domgross_millions, color = binary)) + geom_histogram() + facet_wrap(~ binary)
+domgross_scatter
+```
+
 
 ```{r}
 library(ggplot2)
