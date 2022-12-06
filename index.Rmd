@@ -7,15 +7,11 @@ output:
     self_contained: false
 ---
 
+##Introduction
 
+The Bechdel Test is a method of measuring the representation of women in a film. The evaluation is based on three pieces of criteria: there has to be at least two women, they need to talk to each other, and their conversation must be about something other than a man. The test actually originated from one of Alison Bechdel, a comic strip illustrator and writer’s comics without the aim of becoming a national barometer for sexism in Hollywood. Though the Bechdel Test is extremely flawed because it fails to account for gender nuances, it serves as a minimum baseline for looking at movies, particularly older, more classic ones in a time when women were rarely portrayed as anything but a heterosexual love-interest on screen. These classic movies clearly succeeded in box offices, or they would not be considered classics today. More recently, the public has seen immense growth when it comes to diversity on screen, with more directors and actors being BIPOC, women, LGBTQ+, and a combination of these identity groups. However, one might ask whether the inclusivity and progressiveness of films impact the success of a movie. Does a movie passing the Bechdel Test affect its domestic grossing? In particular, assuming that a movie’s budget affects domestic grossing, how statistically significant are Bechdel Test outcomes in a movie’s viewing success? 
 
-## Project thoughts
-
-Milestone 1:
-I am interested in exploring data related to character representation on TV. Specifically, I am interested in how different underrepresented groups are displayed on TV and with what frequency. I would love to overlay this information with general attitudes to different identity groups over time to see how TV representation may or may not make a difference. I plan to find this data utilizing Google Data Sets.
-
-Milestone 2: 
-For the Gov 50 Final Project, my research question is: What is the relationship between movies passing the Bechdel test and their domestic grossing. The Bechdel test is conducted on movies as a metric of determining gender bias by evaluating the nature of conversations among women in the films and whether they revolve around men or stand independent. I plan to use a data set provided by FiveThirtyEight and inspired by the study "The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women" [https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/]. The data set lists a number of movies, the binary of whether they pass the Bechdel test, and the movies' budget, in addition to variables like domestic grossing and international grossing. I plan to examine the correlation among some of these variables to find out either if whether a movie passes the Bechdel test impacts the domestic grossing. My explanatory variable could be whether a movie passes the Bechdel test and the outcome could be the domestic grossing. I hypothesize that  movies that pass the Bechdel test might have a higher domestic grossing that those that do not. I plan to examine some of these variables through scatter plots to look at correlation. I have yet to decide whether to limit the time frame of the data because there are currently 1795 rows. There is also a scenario in which I look at the potential increase in movies that pass the Bechdel test over time. 
+An optimistic hypothesis would be that movies are more likely to succeed if they do pass the Bechdel Test because society has evolved to value realistic portrayals of life and women that do not revolve around men. Utilizing data to answer the research question is interesting because it might inform how the movie industry works and whether their decisions relating to casting and scriptwriting is informed by their audiences or whether what audiences look for in movies does not necessarily reflect their everyday values. If the Bechdel test does have a strong positive or negative impact on domestic grossing, then it would tell us something significant about the values of production companies and audiences. If there is no correlation, it speaks to a potential indifference to the portrayal of women on screen. Additionally, by overlaying the Bechdel test binary on a movie’s budget in conjunction with domestic grossing, it would be notable if high budget movies are more or less likely to pass the Bechdel Test. The film industry plays a powerful role in the public’s implicit biases and public opinion is both represented in what’s shown on screen, but what’s shown on screen also impacts how people think in the future. If viewers are not exposed to women engaging in conversations independent of men, it informs the perception of women and can also lead to societal norms and stereotypes such as the stereotype that young women’s relationship might depend on the presence of men and their actions. 
 
 ```{r}
 library(tidyverse)
@@ -27,19 +23,25 @@ bechdel <- bechdel |>
          domgross_millions = domgross/1000000)|>
   drop_na()
 ```
+##Data
+
+The data for this project was collected from FiveThiryEight through GitHub because it was used in a study called "The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women" [https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/] that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The dependent variable (the y-variable) is domestic grossing throughout the study because that is the variable used to measure the success of each film. There are a few independent variables (x-variables) that are utilized in the data visualizations including the budgets of the movies, the year they were released, and, most importantly, whether the movie passes the Bechdel Test. All of the variables are quantitative except for the Bechdel Test which is a Pass/Fail binary, another type of categorical variable. The data was collected likely from existing databases from box offices that would preserve movies’ budgets and grossing data. FiveThirtyEight, which is known for their data projects, has used a website called The-Numbers.com with daily and archived updates about how films are doing in theaters and at home, so it is very possible they took some of their data from there as well as Bechdel.com which tracks which movies pass the three criteria of the Bechdel Test. The following is a summary of the dependent variable, the domestic grossing of the movies, divided based on its Bechdel status:
+
 ```{r}
 library(ggplot2)
-domgross_scatter <- bechdel |>
-  ggplot(bechdel, mapping = aes(x = domgross_millions, color = binary)) + geom_histogram() + facet_wrap(~ binary)
-domgross_scatter
+#Summary of dependent variable (domestic grossing)
+domgross_plot <- bechdel |>
+  ggplot(bechdel, mapping = aes(x = log(domgross_millions), color = binary)) + geom_histogram() + facet_wrap(~ binary) + labs(x= "Domestic Grossing in Millions", y = "Number of Movies", title = "Summary of Dependent Variable: Domestic Grossing in Millions", color = "Bechdel Test")
+domgross_plot
 ```
-
+Additionally, here is a plot that shows the domestic grossing and its relationship with one of the dependent variables, budget, color coded by whether the movies plotted passed the Bechdel Test. The scatterplot demonstrates a very basic positive linear relationship between domestic grossing and budget which is unsurprising. It also shows that this relationship is not heavily impacted by whether a film passes the Bechdel Test. 
 
 ```{r}
 library(ggplot2)
+#Scatterplot Summary of Main Variables
 bechdel_scatterplot <- bechdel |>
-  ggplot(bechdel, mapping = aes(x = budget_millions, y = domgross_millions, color = binary)) + 
-  geom_point(size = 0.5) + xlim(0, 350) +ylim(0, 650) + 
+  ggplot(bechdel, mapping = aes(x = log(budget_millions), y = log(domgross_millions), color = binary)) + 
+  geom_point(size = 0.5) + 
   geom_smooth(method = lm) + 
   labs(
     x = "Film Budgets in Millions of USD", 
@@ -49,19 +51,53 @@ bechdel_scatterplot <- bechdel |>
 bechdel_scatterplot
 ```
 
-This scatterplot data visualization plots how the domestic grossing of a film is affected by its budget in millions. The points themselves are distinguished based on whether they pass or fail the bechdel test. My research question was how a movie passing the bechdel test might impact its domestic grossing and I optimistically hypothesized that movies that pass the bechdel test would have a higher domestic grossing. However, this visualization shows there is little to no impact on a movie's domestic grossing based on whether it passes the bechdel test. Movies that pass might have a slightly higher domestic grossing based on the linear model, but not enough to be statistically signficant according to the regression calculations below. 
+To assess the main results, the dependent variable, the domestic grossing, will be put in conjunction with the other variables that could end up being causal or confounding variables such as the budget, year, and the Bechdel binary. The design of this research surrounding the impact of the Bechdel Test can be categorized as a cross-sectional study because the data is being observed at a given time, in this case long after the movies came out and the budgets and domestic grossing were determined and measured. Additionally, the 1,795 data points in the dataset are a small population of the hundreds of thousands of movies that exist and could be candidates for the Bechdel Test. However, simply tracking a sample of movies in a cross sectional study can inform larger trends related to box office movies and their relationship with the Bechdel Test.
+
+##Results
+
+Though the scatterplot provides an aesthetically pleasing visualization of the simple correlation between some of the variables, to get a clearer understanding of the actual statistical significance of the budget, Bechdel status, and other confounding variables such as year, a linear regression model is significantly more effective. The following table shows the model that looks at the relationship between the log of domestic grossing and the log of budget, the significance of the Bechdel binary, and the movie’s year, with the independent variables held constant. The main coefficient in our regression, the Bechdel binary, is shown to have a coefficient of 0.093, which means there was only a very minor positive impact of the Bechdel test on the domestic grossing of the movies examined. The Bechdel Test variable is the only variable in which statistical significance is not identified, which means that budget and year do have a significant impact on the domestic grossing results of a movie with the Bechdel variable held constant, but the Bechdel variable is not significant in any circumstance observed. Therefore, it is of note that the Bechdel test does not have a causal impact on the grossing success of the movies assessed. 
+
+This result is bolstered by the visual model of the data from the linear regression, which places the point estimate for the average predicted domestic grossing for movies that fail the test just below 50 million dollars, and the point estimate for the average predicted domestic grossing for movies that pass just above 50 million, which is not significant because the range of grossing for all the movies goes from zero to 760 million. Additionally, the model shows that the confidence intervals for the Pass and Fail outcomes of the binary variable overlap significantly, so even the difference in point estimates could be completely negated based on the parameters of the domestic grossing. 
 
 
 ```{r}
 library(broom)
+library(modelsummary)
+library(sjPlot)
+
+#This line will remove one of the data points that has a domestic grossing of zero because it is an outlier that might have had particular circumstances that led to no U.S. viewership:
+bechdel2 <- bechdel
+bechdel2[which(bechdel$domgross == 0),] <- NA
+
+#Linear Regression
+m.lm <- lm(domgross_millions ~ binary +
+          budget_millions + year, 
+           data = bechdel)
+modelsummary(m.lm,
+             estimate = c("{estimate}{stars}"),
+             gof_omit = c("IC|Lik.|RMSE"))
+
+plot_model(m.lm, type = "pred")
+
+
+```
+##Conclusion 
+
+In conclusion, the linear regression found does not support the hypothesis that movies that pass the Bechdel Test are more likely to succeed in terms of grossing. Instead, it can be concluded that a movie’s Bechdel Test status has little to no effect on the viewing success of movies in the US, regardless of budget or the movies’ release year. In other words, it was extremely significant that the Bechdel binary had no statistical significance. One might be able to conclude that the feminist nature of a movie has very little effect on Americans’ interest in watching said movie. This experiment could have been improved significantly with a more randomized sample size and perhaps with a before and after element. For example, the domestic grossing numbers could have been influenced by the time of year or world events that occurred during its release, which would impact its success for reasons independent of the movie’s Bechdel status. Additionally, the experiment would be more meaningful if there was information on the viewers’ beliefs and identity for watching the movie. An ideal experiment examining the relationship between gender attitudes and movies might track viewers’ outlooks towards movies before and after watching them in a before-and-after experiment with randomized participants. The answers in these surveys might be impacted by the gender or age of the respondents which would be interesting to factor into a regression. The experiment might also have benefited from other information about each movie beyond its Bechdel status such as its racial diversity or subject matter to make the study more intersectional, or the gender of its director which is another method of finding out if gender bias plays a role in domestic grossing success. 
+
+
+```{r}
 m.lm <- lm(domgross_millions ~ binary +
            budget_millions + year, 
            data = bechdel)
+modelsummary(m.lm,
+             estimate = c("{estimate}{stars}"),
+             gof_omit = c("IC|Lik.|RMSE"))
+
+
 broom::tidy(m.lm) |>
   select(term, estimate, p.value) |>
   knitr::kable(digits = 3)
-
-
 
 ```
 
