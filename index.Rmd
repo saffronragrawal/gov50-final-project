@@ -82,18 +82,19 @@ bechdel2 <- bechdel
 bechdel2[which(bechdel$domgross == 0),] <- NA
 
 #Linear Regression
-m.lm <- lm(log(domgross_millions) ~ binary +
-          log(budget_millions) + year, 
-           data = bechdel2)
+m.lm <- lm(domgross_millions ~ binary +
+             budget_millions + year, 
+           data = bechdel)
 table <- modelsummary(m.lm, stars = TRUE,
              estimate = c("{estimate}{stars}"),
              gof_omit = c("IC|Lik.|RMSE"),
-             coef_map = var_labels)
-
-var_labels <- c("(Intercept)" ="Intercept", binaryPASS = "Bechdel Test",
-"budget_millions" = "Budget in Millions of Dollars",
-"year" = "Year")
+             coef_rename = c("(Intercept)"="Intercept", 
+                             binaryPASS = "Bechdel Test", 
+                             budget_millions = "Budget in Millions of Dollars",
+                             year = "Year"))
 table
+
+
 ```
 
 This result is bolstered by the visual model of the data from the linear regression, which places the point estimate for the average predicted domestic grossing for movies that fail the test just below 50 million dollars, and the point estimate for the average predicted domestic grossing for movies that pass just above 50 million, which is not significant because the range of grossing for all the movies goes from zero to 760 million. Additionally, the model shows that the confidence intervals for the Pass and Fail outcomes of the binary variable overlap significantly, so even the difference in point estimates could be completely negated based on the parameters of the domestic grossing. 
