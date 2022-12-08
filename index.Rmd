@@ -86,12 +86,11 @@ m.lm <- lm(domgross_millions ~ binary +
              budget_millions + year, 
            data = bechdel)
 table <- modelsummary(m.lm, stars = TRUE,
-             estimate = c("{estimate}{stars}"),
              gof_omit = c("IC|Lik.|RMSE"),
              coef_rename = c("(Intercept)"="Intercept", 
                              binaryPASS = "Bechdel Test", 
                              budget_millions = "Budget in Millions of Dollars",
-                             year = "Year"))
+                             year = "Year"), na.rm = TRUE)
 table
 
 

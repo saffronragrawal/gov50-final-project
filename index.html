@@ -1599,15 +1599,14 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>             <span class='va'>budget_millions</span> <span class='op'>+</span> <span class='va'>year</span>, </span>
 <span>           data <span class='op'>=</span> <span class='va'>bechdel</span><span class='op'>)</span></span>
 <span><span class='va'>table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://vincentarelbundock.github.io/modelsummary/reference/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>m.lm</span>, stars <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
-<span>             estimate <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"{estimate}{stars}"</span><span class='op'>)</span>,</span>
 <span>             gof_omit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"IC|Lik.|RMSE"</span><span class='op'>)</span>,</span>
 <span>             coef_rename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(Intercept)"</span><span class='op'>=</span><span class='st'>"Intercept"</span>, </span>
 <span>                             binaryPASS <span class='op'>=</span> <span class='st'>"Bechdel Test"</span>, </span>
 <span>                             budget_millions <span class='op'>=</span> <span class='st'>"Budget in Millions of Dollars"</span>,</span>
-<span>                             year <span class='op'>=</span> <span class='st'>"Year"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>                             year <span class='op'>=</span> <span class='st'>"Year"</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span><span class='va'>table</span></span></code></pre>
 </div>
-<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<table style="NAborder-bottom: 0; width: auto !important; margin-left: auto; margin-right: auto;" class="table">
 <thead>
 <tr>
 <th style="text-align:left;">
@@ -1703,6 +1702,13 @@ R2 Adj.
 </td>
 </tr>
 </tbody>
+<tfoot>
+<tr>
+<td style="padding: 0; " colspan="100%">
+<sup></sup> + p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001
+</td>
+</tr>
+</tfoot>
 </table>
 </div>
 <p>This result is bolstered by the visual model of the data from the linear regression, which places the point estimate for the average predicted domestic grossing for movies that fail the test just below 50 million dollars, and the point estimate for the average predicted domestic grossing for movies that pass just above 50 million, which is not significant because the range of grossing for all the movies goes from zero to 760 million. Additionally, the model shows that the confidence intervals for the Pass and Fail outcomes of the binary variable overlap significantly, so even the difference in point estimates could be completely negated based on the parameters of the domestic grossing.</p>
