@@ -25,13 +25,27 @@ bechdel <- bechdel |>
 ```
 # Data
 
-The data for this project was collected from FiveThiryEight through GitHub because it was used in a study called ["The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women"] (https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/) that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The dependent variable (the y-variable) is domestic grossing throughout the study because that is the variable used to measure the success of each film. There are a few independent variables (x-variables) that are utilized in the data visualizations including the budgets of the movies, the year they were released, and, most importantly, whether the movie passes the Bechdel Test. All of the variables are quantitative except for the Bechdel Test which is a Pass/Fail binary, another type of categorical variable. The data was collected likely from existing databases from box offices that would preserve movies’ budgets and grossing data. FiveThirtyEight, which is known for their data projects, has used a website called The-Numbers.com with daily and archived updates about how films are doing in theaters and at home, so it is very possible they took some of their data from there as well as Bechdel.com which tracks which movies pass the three criteria of the Bechdel Test. The following is a summary of the dependent variable, the domestic grossing of the movies, divided based on its Bechdel status:
+The data for this project was collected from FiveThiryEight through GitHub because it was used in a study called [The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women] (https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/) that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The variables in this data that will be used are described below:
+
+
+| Name                | Description                                                     |
+|:--------------------|:----------------------------------------------------------------|
+| `binary`            | whether a movies passes or fails the Bechdel Test               |
+| `title`             | movie title                                                     |
+| `year`              | year of the movie's release                                     |
+| `budget_millions`   | budget for a movie in millions of US dollars                    |
+| `domgross_millsion` | domestic grossing for a movie in millions of people             |
+| `gdpPercap`         | GDP per capita (US dollars, inflation-adjusted)                 |
+|                     |                                                                 |
+
+
+The dependent variable (the y-variable)  in this study is domestic grossing throughout the study because that is the variable used to measure the success of each film. There are a few independent variables (x-variables) that are utilized in the data visualizations including the budgets of the movies, the year they were released, and, most importantly, whether the movie passes the Bechdel Test. All of the variables are quantitative except for the Bechdel Test which is a Pass/Fail binary, another type of categorical variable. The data was collected likely from existing databases from box offices that would preserve movies’ budgets and grossing data. FiveThirtyEight, which is known for their data projects, has used a website called The-Numbers.com with daily and archived updates about how films are doing in theaters and at home, so it is very possible they took some of their data from there as well as Bechdel.com which tracks which movies pass the three criteria of the Bechdel Test. The following is a summary of the dependent variable, the domestic grossing of the movies, divided based on its Bechdel status:
 
 ```{r}
 library(ggplot2)
 #Summary of dependent variable (domestic grossing)
 domgross_plot <- bechdel |>
-  ggplot(bechdel, mapping = aes(x = log(domgross_millions), color = binary)) + geom_histogram() + facet_wrap(~ binary) + labs(x= "Domestic Grossing in Millions", y = "Number of Movies", title = "Summary of Dependent Variable: Domestic Grossing in Millions", color = "Bechdel Test")
+  ggplot(bechdel, mapping = aes(x = domgross_millions, color = binary)) + geom_histogram() + facet_wrap(~ binary) + labs(x= "Domestic Grossing in Millions", y = "Number of Movies", title = "Summary of Dependent Variable: Domestic Grossing in Millions", color = "Bechdel Test")
 domgross_plot
 ```
 Additionally, here is a plot that shows the domestic grossing and its relationship with one of the dependent variables, budget, color coded by whether the movies plotted passed the Bechdel Test. The scatterplot demonstrates a very basic positive linear relationship between domestic grossing and budget which is unsurprising. It also shows that this relationship is not heavily impacted by whether a film passes the Bechdel Test. The plot under it compares the simple relationship with one that shows the log of the values to see how the log plot shows an even more normal distribution and a stronger positive linear relationship between domestic grossing and budget with even less variation between the Pass and Fail Bechdel variables. 
@@ -84,13 +98,14 @@ bechdel2[which(bechdel$domgross == 0),] <- NA
 #Linear Regression
 m.lm <- lm(domgross_millions ~ binary +
              budget_millions + year, 
-           data = bechdel)
+           data = bechdel2)
 table <- modelsummary(m.lm, stars = TRUE,
-             gof_omit = c("IC|Lik.|RMSE"),
+             gof_omit = c("IC|Lik.|RMSE"), notes = "Outcome = Domestic Grossing",
              coef_rename = c("(Intercept)"="Intercept", 
                              binaryPASS = "Bechdel Test", 
                              budget_millions = "Budget in Millions of Dollars",
-                             year = "Year"), na.rm = TRUE)
+                             year = "Year"), na.rm = TRUE, 
+             title = "Linear Regression for the Effect of Variables on Movie Domestic Grossing")
 table
 
 
@@ -100,8 +115,8 @@ This result is bolstered by the visual model of the data from the linear regress
 
 
 ```{r}
-plot_model(m.lm, type = "pred")
-plot_model(m.lm, show.values = TRUE)
+plot_model(m.lm, type = "pred", axis.title = c("Bechdel Test", "Domestic Grossing in Millions"), title = c("Predicted Values of Domestic Grossing in Millions"))$binary
+plot_model(m.lm, show.values = TRUE, axis.title = c("Estimate"), title = c("Visualization for Linear Regression Model"))
 ```
 
 # Conclusion 
