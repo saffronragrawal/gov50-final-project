@@ -88,29 +88,29 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 
   <!--radix_placeholder_meta_tags-->
-  <title>Gov 50 Final Project</title>
+  <title>A Film of One's Own: The Impact of Bechdel Test Outcomes on Movies' Grossing Success</title>
 
-  <meta property="description" itemprop="description" content="Saffron&#39;s final project"/>
+  <meta property="description" itemprop="description" content="Saffron&#39;s Gov50 Final Project"/>
 
 
   <meta name="article:author" content="Saffron Agrawal"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Gov 50 Final Project"/>
+  <meta property="og:title" content="A Film of One&#39;s Own: The Impact of Bechdel Test Outcomes on Movies&#39; Grossing Success"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="Saffron&#39;s final project"/>
+  <meta property="og:description" content="Saffron&#39;s Gov50 Final Project"/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Gov 50 Final Project"/>
-  <meta property="twitter:description" content="Saffron&#39;s final project"/>
+  <meta property="twitter:title" content="A Film of One&#39;s Own: The Impact of Bechdel Test Outcomes on Movies&#39; Grossing Success"/>
+  <meta property="twitter:description" content="Saffron&#39;s Gov50 Final Project"/>
 
   <!--/radix_placeholder_meta_tags-->
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","author","description","output"]}},"value":[{"type":"character","attributes":{},"value":["Gov 50 Final Project"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saffron Agrawal"]}]}]},{"type":"character","attributes":{},"value":["Saffron's final project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","author","description","output"]}},"value":[{"type":"character","attributes":{},"value":["A Film of One's Own: The Impact of Bechdel Test Outcomes on Movies' Grossing Success"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Saffron Agrawal"]}]}]},{"type":"character","attributes":{},"value":["Saffron's Gov50 Final Project"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -1495,7 +1495,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Gov 50 Final Project","description":"Saffron's final project","authors":[{"author":"Saffron Agrawal","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}]}
+{"title":"A Film of One's Own: The Impact of Bechdel Test Outcomes on Movies' Grossing Success","description":"Saffron's Gov50 Final Project","authors":[{"author":"Saffron Agrawal","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}]}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1505,10 +1505,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Gov 50 Final Project</h1>
+<h1>A Film of One’s Own: The Impact of Bechdel Test Outcomes on Movies’ Grossing Success</h1>
 <!--radix_placeholder_categories-->
 <!--/radix_placeholder_categories-->
-<p>Saffron’s final project</p>
+<p>Saffron’s Gov50 Final Project</p>
 </div>
 
 <div class="d-byline">
@@ -1526,19 +1526,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>Utilizing data to answer the research question is interesting because it might inform how the movie industry works and whether their decisions relating to casting and script writing is informed by their audiences or whether what audiences look for in movies does not necessarily reflect their everyday values. If the Bechdel test does have a strong positive or negative impact on domestic grossing, then it would tell us something significant about the values of production companies and audiences. If there is no correlation, it speaks to a potential indifference to the portrayal of women on screen. Additionally, by overlaying the Bechdel test binary on a movie’s budget in conjunction with domestic grossing, it would be notable if high budget movies are more or less likely to pass the Bechdel Test.</p>
 <p>The film industry plays a powerful role in the public’s implicit biases and public opinion is both represented in what’s shown on screen, but what’s shown on screen also impacts how people think in the future. If viewers are not exposed to women engaging in conversations independent of men, it informs the perception of women and can also lead to societal norms and stereotypes such as the stereotype that young women’s relationship might depend on the presence of men and their actions.</p>
 <div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
-<span><span class='va'>bechdel</span><span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"bechdel_data.csv"</span><span class='op'>)</span></span>
-<span><span class='va'>bechdel</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>budget <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>budget</span><span class='op'>)</span>,</span>
-<span>         domgross <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>domgross</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>budget_millions <span class='op'>=</span> <span class='va'>budget</span><span class='op'>/</span><span class='fl'>1000000</span>, </span>
-<span>         domgross_millions <span class='op'>=</span> <span class='va'>domgross</span><span class='op'>/</span><span class='fl'>1000000</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
-</div>
+
 </div>
 <h1 id="data">Data</h1>
-<p>The data for this project was collected from FiveThirtyEight through GitHub because it was used in a study called [The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women] (<a href="https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/" class="uri">https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/</a>) that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The variables in this data that will be used are described below:</p>
+<p>The data for this project was collected from FiveThirtyEight through GitHub because it was used in a study called <a href="https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/">The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women</a> that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The variables in this data that will be used are described below:</p>
 <table>
 <colgroup>
 <col style="width: 24%" />
@@ -1645,7 +1636,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>             gof_omit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"IC|Lik.|RMSE"</span><span class='op'>)</span>, notes <span class='op'>=</span> <span class='st'>"Outcome = Domestic Grossing"</span>,</span>
 <span>             coef_rename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(Intercept)"</span><span class='op'>=</span><span class='st'>"Intercept"</span>, </span>
 <span>                             binaryPASS <span class='op'>=</span> <span class='st'>"Bechdel Test"</span>, </span>
-<span>                             budget_millions <span class='op'>=</span> <span class='st'>"Budget in Millions of Dollars"</span>,</span>
+<span>                             <span class='st'>"log(budget_millions)"</span> <span class='op'>=</span> <span class='st'>"Log of Budget in Millions of Dollars"</span>,</span>
 <span>                             year <span class='op'>=</span> <span class='st'>"Year"</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
 <span>             title <span class='op'>=</span> <span class='st'>"Linear Regression for the Effect of Variables on Movie Domestic Grossing"</span><span class='op'>)</span></span>
 <span><span class='va'>table</span></span></code></pre>
@@ -1696,7 +1687,7 @@ Bechdel Test
 </tr>
 <tr>
 <td style="text-align:left;">
-log(budget_millions)
+Log of Budget in Millions of Dollars
 </td>
 <td style="text-align:center;">
 0.851***
@@ -1769,14 +1760,16 @@ R2 Adj.
 <p>This result is bolstered by the visual model of the data from the linear regression, which places the point estimate for the average predicted domestic grossing for movies that fail the test just below 50 million dollars, and the point estimate for the average predicted domestic grossing for movies that pass just above 50 million, which is not significant because the range of grossing for all the movies goes from zero to 760 million dollars. Additionally, the model shows that the confidence intervals for the Pass and Fail outcomes of the binary variable overlap significantly, so even the difference in point estimates could be completely negated based on the parameters of the domestic grossing.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://strengejacke.github.io/sjPlot/reference/plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>m.lm</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>binary</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Model for the Regression (Bechdel Test)</span></span>
+<span><span class='fu'><a href='https://strengejacke.github.io/sjPlot/reference/plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>m.lm</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>binary</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-6-1.png" width="624" /></p>
 </div>
 <p>The subsequent models of the predicted values of domestic grossing in millions of dollars based on budget and year are relevant because they help indicate predicted values without the log function that was used for the table. The first plot demonstrates confidence intervals with a strong positive slope and the second represents confidence intervals with a strong negative slope, but low p-values in both cases. For example, the first plot shows it can be predicted that a movie with a budget of 200 million dollars would have a domestic grossing of about 150 million dollars with the other variables held constant.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://strengejacke.github.io/sjPlot/reference/plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>m.lm</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predicted Values of Domestic Grossing in Millions Based on Budget"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>budget_millions</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Models for the Regression (Budget and Year)</span></span>
+<span><span class='fu'><a href='https://strengejacke.github.io/sjPlot/reference/plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>m.lm</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predicted Values of Domestic Grossing in Millions Based on Budget"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>budget_millions</span></span></code></pre>
 </div>
 <img src="index_files/figure-html5/unnamed-chunk-7-1.png" width="624" />
 <div class="sourceCode">

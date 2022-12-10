@@ -1,7 +1,7 @@
 ---
-title: "Gov 50 Final Project"
+title: "A Film of One's Own: The Impact of Bechdel Test Outcomes on Movies' Grossing Success"
 author: "Saffron Agrawal"
-description: "Saffron's final project"
+description: "Saffron's Gov50 Final Project"
 output:
   distill::distill_article:
     self_contained: false
@@ -19,7 +19,7 @@ Utilizing data to answer the research question is interesting because it might i
 
 The film industry plays a powerful role in the public’s implicit biases and public opinion is both represented in what’s shown on screen, but what’s shown on screen also impacts how people think in the future. If viewers are not exposed to women engaging in conversations independent of men, it informs the perception of women and can also lead to societal norms and stereotypes such as the stereotype that young women’s relationship might depend on the presence of men and their actions. 
 
-```{r}
+```{r, echo=FALSE}
 library(tidyverse)
 bechdel<- read.csv("bechdel_data.csv")
 bechdel <- bechdel |>
@@ -31,7 +31,7 @@ bechdel <- bechdel |>
 ```
 # Data
 
-The data for this project was collected from FiveThirtyEight through GitHub because it was used in a study called [The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women] (https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/) that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The variables in this data that will be used are described below:
+The data for this project was collected from FiveThirtyEight through GitHub because it was used in a study called [The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women](https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/) that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The variables in this data that will be used are described below:
 
 
 | Name                | Description                                                     |
@@ -110,7 +110,7 @@ table <- modelsummary(m.lm, stars = TRUE,
              gof_omit = c("IC|Lik.|RMSE"), notes = "Outcome = Domestic Grossing",
              coef_rename = c("(Intercept)"="Intercept", 
                              binaryPASS = "Bechdel Test", 
-                             budget_millions = "Budget in Millions of Dollars",
+                             "log(budget_millions)" = "Log of Budget in Millions of Dollars",
                              year = "Year"), na.rm = TRUE, 
              title = "Linear Regression for the Effect of Variables on Movie Domestic Grossing")
 table
@@ -123,13 +123,14 @@ This result is bolstered by the visual model of the data from the linear regress
 
 
 ```{r}
-
+#Model for the Regression (Bechdel Test)
 plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"))$binary
 
 ```
 The subsequent models of the predicted values of domestic grossing in millions of dollars based on budget and year are relevant because they help indicate predicted values without the log function that was used for the table. The first plot demonstrates confidence intervals with a strong positive slope and the second represents confidence intervals with a strong negative slope, but low p-values in both cases. For example, the first plot shows it can be predicted that a movie with a budget of 200 million dollars would have a domestic grossing of about 150 million dollars with the other variables held constant.
 
 ```{r}
+#Models for the Regression (Budget and Year)
 plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Budget"))$budget_millions
 plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Year"))$year
 
