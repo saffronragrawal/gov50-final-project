@@ -48,7 +48,7 @@ The dependent variable (the y-variable)  in this study is domestic grossing thro
 
 The data was collected likely from existing databases from box offices that would preserve movies’ budgets and grossing data. FiveThirtyEight, which is known for their data projects, has used a website called The-Numbers.com with daily and archived updates about how films are doing in theaters and at home, so it is very possible they took some of their data from there as well as Bechdel.com which tracks which movies pass the three criteria of the Bechdel Test. The following is a summary of the dependent variable, the domestic grossing of the movies, divided based on its Bechdel status:
 
-```{r}
+```{r, echo=FALSE}
 library(ggplot2)
 #Summary of dependent variable (domestic grossing)
 domgross_plot <- bechdel |>
@@ -66,7 +66,7 @@ domgross_plot
 
 To interpret the results, some scatter plots to summarize regression were created and a regression model was conducted and presented with a table and some visual plots. Here is first a scatter plot that shows the domestic grossing and its relationship with one of the dependent variables, budget, color coded by whether the movies plotted passed the Bechdel Test. The scatter plot demonstrates a very basic positive linear relationship between domestic grossing and budget which is unsurprising. It also shows that this relationship is not heavily impacted by whether a film passes the Bechdel Test. The plot under it compares the simple relationship with one that shows the log of the values to see how the log plot shows an even more normal distribution and a stronger positive linear relationship between domestic grossing and budget with even less variation between the Pass and Fail Bechdel variables. 
 
-```{r}
+```{r, echo=FALSE}
 library(ggplot2)
 #Scatter Plot Summary of Main Variables
 bechdel_scatterplot <- bechdel |>
@@ -80,7 +80,7 @@ bechdel_scatterplot <- bechdel |>
     color = "Bechdel Test")
 bechdel_scatterplot
 ```
-```{r}
+```{r, echo=FALSE}
 library(ggplot2)
 #Scatter Plot Log Summary of Main Variables
 bechdel_scatterplot_log <- bechdel |>
@@ -101,7 +101,7 @@ To assess the main results, the dependent variable, the domestic grossing, will 
 
 Though the scatter plot provides an aesthetically pleasing visualization of the simple correlation between some of the variables, to get a clearer understanding of the actual statistical significance of the budget, Bechdel status, and other confounding variables such as year, a linear regression model is significantly more effective. The following table shows the model that looks at the relationship between the log of domestic grossing and the log of budget, the significance of the Bechdel binary, and the movie’s year, with the independent variables held constant. 
 
-```{r}
+```{r, echo=FALSE}
 library(broom)
 library(modelsummary)
 library(sjPlot)
@@ -131,14 +131,14 @@ The main coefficient in our regression, the Bechdel binary, is shown to have a c
 This result is bolstered by the visual model of the data from the linear regression, which places the point estimate for the average predicted domestic grossing for movies that fail the test just below 50 million dollars, and the point estimate for the average predicted domestic grossing for movies that pass just above 50 million, which is not significant because the range of grossing for all the movies goes from zero to 760 million dollars. Additionally, the model shows that the confidence intervals for the Pass and Fail outcomes of the binary variable overlap significantly, so even the difference in point estimates could be completely negated based on the parameters of the domestic grossing. 
 
 
-```{r}
+```{r, echo=FALSE}
 #Model for the Regression (Bechdel Test)
 plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"))$binary
 
 ```
 The subsequent models of the predicted values of domestic grossing in millions of dollars based on budget and year are relevant because they help indicate predicted values without the log function that was used for the table. The first plot demonstrates confidence intervals with a strong positive slope and the second represents confidence intervals with a strong negative slope, but low p-values in both cases. For example, the first plot shows it can be predicted that a movie with a budget of 200 million dollars would have a domestic grossing of about 150 million dollars with the other variables held constant.
 
-```{r}
+```{r, echo=FALSE}
 #Models for the Regression (Budget and Year)
 plot_model(m.lm, type = "pred", 
            title = c("Predicted Values of Domestic Grossing in Millions Based on Budget"))$budget_millions
@@ -158,5 +158,96 @@ An ideal experiment examining the relationship between gender attitudes and movi
 
 
 
+# Code
 
 
+```{r}
+#Creating domgross_millions and budget_millions variables
+
+library(tidyverse)
+bechdel<- read.csv("bechdel_data.csv")
+bechdel <- bechdel |>
+  mutate(budget = as.numeric(budget),
+         domgross = as.numeric(domgross)) |>
+  mutate(budget_millions = budget/1000000, 
+         domgross_millions = domgross/1000000)|>
+  drop_na()
+```
+
+
+```{r}
+#Summary of dependent variable (domestic grossing)
+
+library(ggplot2)
+domgross_plot <- bechdel |>
+  ggplot(bechdel, mapping = aes(x = domgross_millions, color = binary)) + 
+  geom_histogram() + 
+  facet_wrap(~ binary) + 
+  labs(x = "Domestic Grossing in Millions", 
+                              y = "Number of Movies", 
+                              title = "Summary of Dependent Variable: Domestic Grossing in Millions", 
+                              color = "Bechdel Test")
+```
+
+```{r}
+#Scatter Plot Summary of Main Variables
+
+library(ggplot2)
+bechdel_scatterplot <- bechdel |>
+  ggplot(bechdel, mapping = aes(x = budget_millions, y = domgross_millions, color = binary)) + 
+  geom_point(size = 0.5) + 
+  geom_smooth(method = lm) + 
+  labs(
+    x = "Film Budgets in Millions of USD", 
+    y = "Films' Domestic Grossing", 
+    title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test", 
+    color = "Bechdel Test")
+```
+
+```{r}
+#Scatter Plot Log Summary of Main Variables
+
+library(ggplot2)
+bechdel_scatterplot_log <- bechdel |>
+  ggplot(bechdel, mapping = aes(x = log(budget_millions), 
+                                y = log(domgross_millions), 
+                                color = binary)) + 
+  geom_point(size = 0.5) + 
+  geom_smooth(method = lm) + 
+  labs(
+    x = "Log of Film Budgets in Millions of USD", 
+    y = "Log of Films' Domestic Grossing", 
+    title = "The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test", 
+    color = "Bechdel Test")
+```
+
+```{r}
+library(broom)
+library(modelsummary)
+library(sjPlot)
+
+#This line will remove one of the data points that has a domestic grossing of zero because it is an outlier that might have had particular circumstances that led to no U.S. viewership:
+
+bechdel2 <- bechdel
+bechdel2[which(bechdel$domgross == 0),] <- NA
+
+#Linear Regression
+
+m.lm <- lm(log(domgross_millions) ~ binary +
+             log(budget_millions) + year, 
+           data = bechdel2)
+table <- modelsummary(m.lm, stars = TRUE,
+             gof_omit = c("IC|Lik.|RMSE"), 
+             notes = "Outcome = Domestic Grossing",
+             coef_rename = c("(Intercept)"="Intercept", 
+                             binaryPASS = "Bechdel Test", 
+                             "log(budget_millions)" = "Log of Budget in Millions of Dollars",
+                             year = "Year"), na.rm = TRUE, 
+             title = "Linear Regression for the Effect of Variables on Movie Domestic Grossing")
+```
+
+```{r, eval=FALSE}
+#Model for the Regression (Bechdel Test)
+
+plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"))
+```
