@@ -161,7 +161,7 @@ An ideal experiment examining the relationship between gender attitudes and movi
 # Code
 
 
-```{r}
+```{r, eval=FALSE}
 #Creating domgross_millions and budget_millions variables
 
 library(tidyverse)
@@ -175,7 +175,7 @@ bechdel <- bechdel |>
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 #Summary of dependent variable (domestic grossing)
 
 library(ggplot2)
@@ -189,7 +189,7 @@ domgross_plot <- bechdel |>
                               color = "Bechdel Test")
 ```
 
-```{r}
+```{r, eval=FALSE}
 #Scatter Plot Summary of Main Variables
 
 library(ggplot2)
@@ -204,7 +204,7 @@ bechdel_scatterplot <- bechdel |>
     color = "Bechdel Test")
 ```
 
-```{r}
+```{r, eval=FALSE}
 #Scatter Plot Log Summary of Main Variables
 
 library(ggplot2)
@@ -221,7 +221,7 @@ bechdel_scatterplot_log <- bechdel |>
     color = "Bechdel Test")
 ```
 
-```{r}
+```{r, eval=FALSE}
 library(broom)
 library(modelsummary)
 library(sjPlot)
