@@ -161,7 +161,7 @@ An ideal experiment examining the relationship between gender attitudes and movi
 # Code
 
 
-```{r, eval=FALSE}
+```{r}
 #Creating domgross_millions and budget_millions variables
 
 library(tidyverse)
@@ -175,7 +175,7 @@ bechdel <- bechdel |>
 ```
 
 
-```{r, eval=FALSE}
+```{r}
 #Summary of dependent variable (domestic grossing)
 
 library(ggplot2)
@@ -189,7 +189,7 @@ domgross_plot <- bechdel |>
                               color = "Bechdel Test")
 ```
 
-```{r, eval=FALSE}
+```{r}
 #Scatter Plot Summary of Main Variables
 
 library(ggplot2)
@@ -204,7 +204,7 @@ bechdel_scatterplot <- bechdel |>
     color = "Bechdel Test")
 ```
 
-```{r, eval=FALSE}
+```{r}
 #Scatter Plot Log Summary of Main Variables
 
 library(ggplot2)
@@ -221,7 +221,7 @@ bechdel_scatterplot_log <- bechdel |>
     color = "Bechdel Test")
 ```
 
-```{r, eval=FALSE}
+```{r}
 library(broom)
 library(modelsummary)
 library(sjPlot)
@@ -246,7 +246,7 @@ table <- modelsummary(m.lm, stars = TRUE,
              title = "Linear Regression for the Effect of Variables on Movie Domestic Grossing")
 ```
 
-```{r, eval=FALSE}
+```{r}
 #Model for the Regression (Bechdel Test)
 
 plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"))
