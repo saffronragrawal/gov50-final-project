@@ -246,7 +246,7 @@ table <- modelsummary(m.lm, stars = TRUE,
              title = "Linear Regression for the Effect of Variables on Movie Domestic Grossing")
 ```
 
-```{r}
+```{r, eval=FALSE}
 #Model for the Regression (Bechdel Test)
 
 plot_model(m.lm, type = "pred", title = c("Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"))
