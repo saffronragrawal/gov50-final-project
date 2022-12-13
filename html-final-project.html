@@ -1532,8 +1532,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p>The data for this project was collected from FiveThirtyEight through GitHub because it was used in a study called <a href="https://fivethirtyeight.com/features/the-dollar-and-cents-case-against-hollywoods-exclusion-of-women/">The Dollar-And-Cents Case Against Hollywood’s Exclusion of Women</a> that summarized how women have been represented in movies over time, based on the Bechdel Test. The dataset contains information about 1,795 films that range from the years 1970 to 2013. The data includes the title of each movie, a binary for whether the movie passes or fails the Bechdel Test, the budgets, the domestic grossing, and those same variables standardized based on 2013 monetary values to account for inflation. The variables in this data that will be used are described below:</p>
 <table>
 <colgroup>
-<col style="width: 24%" />
-<col style="width: 75%" />
+<col style="width: 25%" />
+<col style="width: 74%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1712,6 +1712,103 @@ R2 Adj.
 <p>In conclusion, the linear regression found does not support the hypothesis that movies that pass the Bechdel Test are more likely to succeed in terms of grossing. Instead, it can be concluded that a movie’s Bechdel Test status has little to no effect on the viewing success of movies in the US, regardless of budget or the movies’ release year. In other words, it was extremely significant that the Bechdel binary had no statistical significance, and the study provides an extremely depressing conclusion about the lack of feminism American movie viewers display. One might be able to conclude that the feminist nature of a movie has very little causal effect on Americans’ interest in watching said movie. In the larger picture, the study leads to questions about what viewers prioritize when choosing what movies to see in theaters. Even the aspect of the data that shows how many movies fail the Bechdel Test tells us that there is still so much work to be done in terms of the representation of women on screen.</p>
 <p>This experiment could have been improved significantly with a more randomized sample size and perhaps with a before and after element. For example, the domestic grossing numbers could have been influenced by the time of year or world events that occurred during its release, which would impact its success for reasons independent of the movie’s Bechdel status. Additionally, the experiment would be more meaningful if there was information on the viewers’ beliefs and identity for watching the movie.</p>
 <p>An ideal experiment examining the relationship between gender attitudes and movies might track viewers’ outlooks towards movies before and after watching them in a before-and-after experiment with randomized participants. The answers in these surveys might be impacted by the gender or age of the respondents which would be interesting to factor into a regression. The experiment might also have benefited from other information about each movie beyond its Bechdel status such as its racial diversity or subject matter to make the study more intersectional, or the gender of its director which is another method of finding out if gender bias plays a role in domestic grossing success.</p>
+<h1 id="code">Code</h1>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Creating domgross_millions and budget_millions variables</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://tidyverse.tidyverse.org'>tidyverse</a></span><span class='op'>)</span></span>
+<span><span class='va'>bechdel</span><span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"bechdel_data.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>bechdel</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>budget <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>budget</span><span class='op'>)</span>,</span>
+<span>         domgross <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='va'>domgross</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>budget_millions <span class='op'>=</span> <span class='va'>budget</span><span class='op'>/</span><span class='fl'>1000000</span>, </span>
+<span>         domgross_millions <span class='op'>=</span> <span class='va'>domgross</span><span class='op'>/</span><span class='fl'>1000000</span><span class='op'>)</span><span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://tidyr.tidyverse.org/reference/drop_na.html'>drop_na</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Summary of dependent variable (domestic grossing)</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='va'>domgross_plot</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>bechdel</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>domgross_millions</span>, color <span class='op'>=</span> <span class='va'>binary</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_histogram.html'>geom_histogram</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/facet_wrap.html'>facet_wrap</a></span><span class='op'>(</span><span class='op'>~</span> <span class='va'>binary</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Domestic Grossing in Millions"</span>, </span>
+<span>                              y <span class='op'>=</span> <span class='st'>"Number of Movies"</span>, </span>
+<span>                              title <span class='op'>=</span> <span class='st'>"Summary of Dependent Variable: Domestic Grossing in Millions"</span>, </span>
+<span>                              color <span class='op'>=</span> <span class='st'>"Bechdel Test"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Scatter Plot Summary of Main Variables</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='va'>bechdel_scatterplot</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>bechdel</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>budget_millions</span>, y <span class='op'>=</span> <span class='va'>domgross_millions</span>, color <span class='op'>=</span> <span class='va'>binary</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='va'>lm</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    x <span class='op'>=</span> <span class='st'>"Film Budgets in Millions of USD"</span>, </span>
+<span>    y <span class='op'>=</span> <span class='st'>"Films' Domestic Grossing"</span>, </span>
+<span>    title <span class='op'>=</span> <span class='st'>"The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test"</span>, </span>
+<span>    color <span class='op'>=</span> <span class='st'>"Bechdel Test"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Scatter Plot Log Summary of Main Variables</span></span>
+<span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='va'>bechdel_scatterplot_log</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>bechdel</span>, mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>budget_millions</span><span class='op'>)</span>, </span>
+<span>                                y <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>domgross_millions</span><span class='op'>)</span>, </span>
+<span>                                color <span class='op'>=</span> <span class='va'>binary</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_smooth.html'>geom_smooth</a></span><span class='op'>(</span>method <span class='op'>=</span> <span class='va'>lm</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span></span>
+<span>    x <span class='op'>=</span> <span class='st'>"Log of Film Budgets in Millions of USD"</span>, </span>
+<span>    y <span class='op'>=</span> <span class='st'>"Log of Films' Domestic Grossing"</span>, </span>
+<span>    title <span class='op'>=</span> <span class='st'>"The Effect of Budget on A Film's Domestic Grossing Based on Passing the Bechdel Test"</span>, </span>
+<span>    color <span class='op'>=</span> <span class='st'>"Bechdel Test"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://broom.tidymodels.org/'>broom</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://vincentarelbundock.github.io/modelsummary/'>modelsummary</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://strengejacke.github.io/sjPlot/'>sjPlot</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#This line will remove one of the data points that has a domestic grossing of zero because it is an outlier that might have had particular circumstances that led to no U.S. viewership:</span></span>
+<span></span>
+<span><span class='va'>bechdel2</span> <span class='op'>&lt;-</span> <span class='va'>bechdel</span></span>
+<span><span class='va'>bechdel2</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>bechdel</span><span class='op'>$</span><span class='va'>domgross</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='cn'>NA</span></span>
+<span></span>
+<span><span class='co'>#Linear Regression</span></span>
+<span></span>
+<span><span class='va'>m.lm</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>domgross_millions</span><span class='op'>)</span> <span class='op'>~</span> <span class='va'>binary</span> <span class='op'>+</span></span>
+<span>             <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>budget_millions</span><span class='op'>)</span> <span class='op'>+</span> <span class='va'>year</span>, </span>
+<span>           data <span class='op'>=</span> <span class='va'>bechdel2</span><span class='op'>)</span></span>
+<span><span class='va'>table</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://vincentarelbundock.github.io/modelsummary/reference/modelsummary.html'>modelsummary</a></span><span class='op'>(</span><span class='va'>m.lm</span>, stars <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span>             gof_omit <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"IC|Lik.|RMSE"</span><span class='op'>)</span>, </span>
+<span>             notes <span class='op'>=</span> <span class='st'>"Outcome = Domestic Grossing"</span>,</span>
+<span>             coef_rename <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"(Intercept)"</span><span class='op'>=</span><span class='st'>"Intercept"</span>, </span>
+<span>                             binaryPASS <span class='op'>=</span> <span class='st'>"Bechdel Test"</span>, </span>
+<span>                             <span class='st'>"log(budget_millions)"</span> <span class='op'>=</span> <span class='st'>"Log of Budget in Millions of Dollars"</span>,</span>
+<span>                             year <span class='op'>=</span> <span class='st'>"Year"</span><span class='op'>)</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
+<span>             title <span class='op'>=</span> <span class='st'>"Linear Regression for the Effect of Variables on Movie Domestic Grossing"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Model for the Regression (Bechdel Test)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://strengejacke.github.io/sjPlot/reference/plot_model.html'>plot_model</a></span><span class='op'>(</span><span class='va'>m.lm</span>, type <span class='op'>=</span> <span class='st'>"pred"</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Predicted Values of Domestic Grossing in Millions Based on Bechdel Test Outcome"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
