@@ -83,6 +83,8 @@ bechdel_scatterplot <- bechdel |>
     color = "Bechdel Test")
 bechdel_scatterplot
 ```
+
+
 ```{r, echo=FALSE}
 library(ggplot2)
 #Scatter Plot Log Summary of Main Variables
